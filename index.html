@@ -14,53 +14,126 @@
       margin: 0;
       font-family: Arial, sans-serif;
       overflow: hidden;
-      background: linear-gradient(180deg, #fff8f1 0%, #ffe9d6 100%);
+      background:
+        radial-gradient(circle at top left, #ffe7c7 0%, transparent 35%),
+        radial-gradient(circle at bottom right, #ffd7b3 0%, transparent 30%),
+        linear-gradient(180deg, #fff8f1 0%, #ffe9d6 100%);
+      color: #2f241d;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      position: relative;
     }
-
-    <div class="background">
-      <span>🍔</span>
-      <span>💸</span>
-      <span>🍟</span>
-      <span>🥤</span>
-      <span>💳</span>
-      <span>🍕</span>
-    </div>
 
     .background {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0;
       pointer-events: none;
       overflow: hidden;
+      z-index: 0;
     }
-    
+
     .background span {
       position: absolute;
-      font-size: 2.5rem;
-      opacity: 0.15;
-      animation: float 12s linear infinite;
+      bottom: -80px;
+      font-size: 2.4rem;
+      opacity: 0.14;
+      animation: floatUp linear infinite;
+      user-select: none;
     }
-    
-    /* random positions */
-    .background span:nth-child(1) { left: 10%; animation-duration: 10s; }
-    .background span:nth-child(2) { left: 25%; animation-duration: 14s; }
-    .background span:nth-child(3) { left: 40%; animation-duration: 11s; }
-    .background span:nth-child(4) { left: 60%; animation-duration: 15s; }
-    .background span:nth-child(5) { left: 75%; animation-duration: 12s; }
-    .background span:nth-child(6) { left: 90%; animation-duration: 13s; }
-    
-    @keyframes float {
+
+    .background span:nth-child(1) {
+      left: 8%;
+      animation-duration: 11s;
+      animation-delay: 0s;
+    }
+
+    .background span:nth-child(2) {
+      left: 20%;
+      animation-duration: 14s;
+      animation-delay: 2s;
+    }
+
+    .background span:nth-child(3) {
+      left: 35%;
+      animation-duration: 12s;
+      animation-delay: 1s;
+    }
+
+    .background span:nth-child(4) {
+      left: 52%;
+      animation-duration: 15s;
+      animation-delay: 3s;
+    }
+
+    .background span:nth-child(5) {
+      left: 68%;
+      animation-duration: 13s;
+      animation-delay: 1.5s;
+    }
+
+    .background span:nth-child(6) {
+      left: 82%;
+      animation-duration: 16s;
+      animation-delay: 0.5s;
+    }
+
+    .background span:nth-child(7) {
+      left: 92%;
+      animation-duration: 12.5s;
+      animation-delay: 2.5s;
+    }
+
+    @keyframes floatUp {
       0% {
-        transform: translateY(100vh) rotate(0deg);
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.14;
       }
       100% {
-        transform: translateY(-10vh) rotate(360deg);
+        transform: translateY(-115vh) rotate(360deg);
+        opacity: 0;
       }
     }
-  
+
+    .glow,
+    .glow2,
+    .glow3 {
+      position: fixed;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.34;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .glow {
+      background: #ffb15e;
+      top: 5%;
+      left: 2%;
+    }
+
+    .glow2 {
+      background: #ff7a3c;
+      bottom: 2%;
+      right: 4%;
+    }
+
+    .glow3 {
+      background: #ffd36f;
+      top: 48%;
+      left: 55%;
+    }
+
     .card {
+      position: relative;
+      z-index: 10;
       width: 100%;
       max-width: 560px;
       background: rgba(255, 255, 255, 0.9);
@@ -182,6 +255,10 @@
     }
 
     @media (max-width: 480px) {
+      body {
+        padding: 16px;
+      }
+
       .card {
         padding: 28px 18px 22px;
         border-radius: 22px;
@@ -194,11 +271,29 @@
       .result {
         font-size: 1.5rem;
       }
+
+      .background span {
+        font-size: 2rem;
+      }
     }
   </style>
 </head>
 
 <body>
+  <div class="background">
+    <span>🍔</span>
+    <span>💸</span>
+    <span>🍟</span>
+    <span>🥤</span>
+    <span>💳</span>
+    <span>🍕</span>
+    <span>🧾</span>
+  </div>
+
+  <div class="glow"></div>
+  <div class="glow2"></div>
+  <div class="glow3"></div>
+
   <div class="card">
     <div class="emoji">🍔💸</div>
     <h1>How Much Do You Spend Eating Out?</h1>
