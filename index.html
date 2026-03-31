@@ -2,110 +2,98 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>This Website Exposed Me</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Eating Out Calculator</title>
 
+  <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(180deg, #f6f8ff 0%, #eef2ff 100%);
-      color: #1f2937;
-      min-height: 100vh;
+      background: linear-gradient(180deg, #fff7ed, #ffedd5);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px;
+      min-height: 100vh;
     }
 
     .card {
-      width: 100%;
-      max-width: 520px;
       background: white;
+      padding: 30px;
       border-radius: 20px;
-      padding: 32px 24px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+      width: 90%;
+      max-width: 500px;
       text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
     }
 
     h1 {
-      margin-top: 0;
-      font-size: 2rem;
-      line-height: 1.2;
+      margin: 0;
+      font-size: 26px;
     }
 
     p {
-      font-size: 1rem;
-      color: #4b5563;
-      margin-bottom: 24px;
+      color: #555;
+      margin: 15px 0 25px;
     }
 
     input {
       width: 100%;
-      padding: 14px 16px;
-      font-size: 1rem;
-      border: 1px solid #d1d5db;
-      border-radius: 12px;
-      outline: none;
-      margin-bottom: 16px;
-    }
-
-    input:focus {
-      border-color: #6366f1;
-      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      margin-bottom: 15px;
     }
 
     button {
       width: 100%;
-      padding: 14px 16px;
-      font-size: 1rem;
-      font-weight: bold;
-      border: none;
-      border-radius: 12px;
-      background: #4f46e5;
+      padding: 14px;
+      background: #ea580c;
       color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
       cursor: pointer;
     }
 
     button:hover {
-      opacity: 0.95;
+      opacity: 0.9;
     }
 
     .result {
-      margin-top: 24px;
-      font-size: 1.4rem;
+      margin-top: 25px;
+      font-size: 22px;
       font-weight: bold;
-      min-height: 40px;
     }
 
     .subtext {
       margin-top: 10px;
-      font-size: 0.95rem;
-      color: #6b7280;
+      color: #666;
+      font-size: 14px;
     }
 
-    .footer-note {
-      margin-top: 24px;
-      font-size: 0.85rem;
-      color: #9ca3af;
+    .footer {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #aaa;
     }
   </style>
 </head>
-<body>
-  <div class="card">
-    <h1>This Website Exposed Me 😭</h1>
-    <p>Type how much you spend each week and see what it adds up to in a year.</p>
 
-    <input type="number" id="money" placeholder="Enter $ per week" />
-    <button onclick="calculate()">Check the damage</button>
+<body>
+
+  <div class="card">
+    <h1>How Much Do You Spend Eating Out? 🍔</h1>
+    <p>Be honest… this might hurt 😭</p>
+
+    <input type="number" id="money" placeholder="$ per week on food">
+
+    <button onclick="calculate()">Calculate</button>
 
     <div class="result" id="result"></div>
     <div class="subtext" id="subtext"></div>
 
-    <div class="footer-note">Tiny tools. Big wake-up calls.</div>
+    <div class="footer">ToolGarden • tiny tools, big realizations</div>
   </div>
 
   <script>
@@ -115,24 +103,27 @@
       const subtext = document.getElementById("subtext");
 
       if (!money || money < 0) {
-        result.innerText = "Enter a real number first 👀";
+        result.innerText = "Enter a real number 👀";
         subtext.innerText = "";
         return;
       }
 
       const yearly = money * 52;
-      result.innerText = `That's $${yearly.toLocaleString()} per year 😳`;
+      const fiveYear = yearly * 5;
 
-      if (yearly < 500) {
-        subtext.innerText = "Not terrible... but that still buys a lot more than you think.";
-      } else if (yearly < 2000) {
-        subtext.innerText = "That number has some bite.";
-      } else if (yearly < 5000) {
-        subtext.innerText = "Yeah... that adds up fast.";
+      result.innerText = `$${yearly.toLocaleString()} per year 😳`;
+
+      if (yearly < 1000) {
+        subtext.innerText = "Okay… not too bad. Still adds up though.";
+      } else if (yearly < 3000) {
+        subtext.innerText = "That’s a vacation right there 😬";
+      } else if (yearly < 6000) {
+        subtext.innerText = "Yeah… this is why saving feels hard.";
       } else {
-        subtext.innerText = "That is a whole side-quest worth of money.";
+        subtext.innerText = "You could buy a whole car with 5 years of this 💀";
       }
     }
   </script>
+
 </body>
 </html>
