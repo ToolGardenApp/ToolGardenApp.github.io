@@ -6,93 +6,185 @@
   <title>Eating Out Calculator</title>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(180deg, #fff7ed, #ffedd5);
+      background:
+        radial-gradient(circle at top left, #ffe7c7 0%, transparent 35%),
+        radial-gradient(circle at bottom right, #ffd7b3 0%, transparent 30%),
+        linear-gradient(180deg, #fff8f1 0%, #fff1e6 100%);
+      color: #2f241d;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
+      padding: 24px;
     }
 
     .card {
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
-      width: 90%;
-      max-width: 500px;
+      width: 100%;
+      max-width: 560px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: 28px;
+      padding: 34px 26px 28px;
       text-align: center;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+      box-shadow:
+        0 20px 60px rgba(120, 72, 25, 0.14),
+        0 8px 24px rgba(120, 72, 25, 0.08);
+    }
+
+    .emoji {
+      font-size: 2rem;
+      margin-bottom: 8px;
     }
 
     h1 {
       margin: 0;
-      font-size: 26px;
+      font-size: 2rem;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
     }
 
-    p {
-      color: #555;
-      margin: 15px 0 25px;
+    .subtitle {
+      margin: 14px auto 26px;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #6c5747;
+      max-width: 420px;
+    }
+
+    .input-wrap {
+      text-align: left;
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #5a4334;
     }
 
     input {
       width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      border-radius: 10px;
-      border: 1px solid #ddd;
-      margin-bottom: 15px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      border: 1px solid #f0d1b3;
+      background: #fffaf6;
+      font-size: 1rem;
+      color: #2f241d;
+      outline: none;
+      transition: 0.2s ease;
+    }
+
+    input:focus {
+      border-color: #f08a24;
+      box-shadow: 0 0 0 5px rgba(240, 138, 36, 0.14);
+      background: #ffffff;
     }
 
     button {
       width: 100%;
-      padding: 14px;
-      background: #ea580c;
-      color: white;
-      font-size: 16px;
+      margin-top: 8px;
+      padding: 16px 18px;
       border: none;
-      border-radius: 10px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #f08a24 0%, #e35d18 100%);
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
       cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+      box-shadow: 0 10px 24px rgba(227, 93, 24, 0.25);
     }
 
     button:hover {
-      opacity: 0.9;
+      transform: translateY(-1px);
+      opacity: 0.98;
+    }
+
+    .result-box {
+      margin-top: 22px;
+      padding: 20px 18px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, #fff7f0 0%, #fff1e5 100%);
+      border: 1px solid #f6d9c2;
+      min-height: 118px;
     }
 
     .result {
-      margin-top: 25px;
-      font-size: 22px;
+      font-size: 1.8rem;
       font-weight: bold;
+      line-height: 1.2;
+      color: #b94814;
+      margin-bottom: 10px;
     }
 
     .subtext {
-      margin-top: 10px;
-      color: #666;
-      font-size: 14px;
+      font-size: 0.98rem;
+      line-height: 1.45;
+      color: #6c5747;
+    }
+
+    .mini-note {
+      margin-top: 18px;
+      font-size: 0.88rem;
+      color: #8b7768;
     }
 
     .footer {
-      margin-top: 20px;
-      font-size: 12px;
-      color: #aaa;
+      margin-top: 22px;
+      font-size: 0.8rem;
+      color: #a08d7e;
+      letter-spacing: 0.02em;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 28px 18px 22px;
+        border-radius: 22px;
+      }
+
+      h1 {
+        font-size: 1.7rem;
+      }
+
+      .result {
+        font-size: 1.5rem;
+      }
     }
   </style>
 </head>
 
 <body>
-
   <div class="card">
-    <h1>How Much Do You Spend Eating Out? 🍔</h1>
-    <p>Be honest… this might hurt 😭</p>
+    <div class="emoji">🍔💸</div>
+    <h1>How Much Do You Spend Eating Out?</h1>
+    <p class="subtitle">
+      Put in your average weekly spending on takeout, fast food, restaurants, or snack runs.
+      The yearly number might slap a little.
+    </p>
 
-    <input type="number" id="money" placeholder="$ per week on food">
+    <div class="input-wrap">
+      <label for="money">Your weekly food spending</label>
+      <input type="number" id="money" placeholder="Enter $ per week" />
+    </div>
 
-    <button onclick="calculate()">Calculate</button>
+    <button onclick="calculate()">Show me the damage</button>
 
-    <div class="result" id="result"></div>
-    <div class="subtext" id="subtext"></div>
+    <div class="result-box">
+      <div class="result" id="result">Your total will show here</div>
+      <div class="subtext" id="subtext">Tiny burger bites can become a giant money monster.</div>
+    </div>
 
+    <div class="mini-note">Tip: include coffee runs, delivery fees, and “just grabbing something quick.”</div>
     <div class="footer">ToolGarden • tiny tools, big realizations</div>
   </div>
 
@@ -103,8 +195,8 @@
       const subtext = document.getElementById("subtext");
 
       if (!money || money < 0) {
-        result.innerText = "Enter a real number 👀";
-        subtext.innerText = "";
+        result.innerText = "Enter a real number first 👀";
+        subtext.innerText = "Try your honest weekly average.";
         return;
       }
 
@@ -114,16 +206,15 @@
       result.innerText = `$${yearly.toLocaleString()} per year 😳`;
 
       if (yearly < 1000) {
-        subtext.innerText = "Okay… not too bad. Still adds up though.";
+        subtext.innerText = "Not terrifying... but still enough to notice.";
       } else if (yearly < 3000) {
-        subtext.innerText = "That’s a vacation right there 😬";
+        subtext.innerText = "That’s a chunky little total right there.";
       } else if (yearly < 6000) {
-        subtext.innerText = "Yeah… this is why saving feels hard.";
+        subtext.innerText = `That’s serious money. In 5 years, that becomes $${fiveYear.toLocaleString()}.`;
       } else {
-        subtext.innerText = "You could buy a whole car with 5 years of this 💀";
+        subtext.innerText = `In 5 years, that’s $${fiveYear.toLocaleString()}. Your wallet is being seasoned and grilled.`;
       }
     }
   </script>
-
 </body>
 </html>
