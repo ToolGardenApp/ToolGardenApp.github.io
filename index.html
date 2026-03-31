@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>This Website Exposed Me</title>
+</head>
+<body style="font-family: Arial, sans-serif; text-align: center; padding: 40px;">
+
+  <h1>This Website Exposed Me 😭</h1>
+
+  <p>How much do you spend per week?</p>
+
+  <input 
+    type="number" 
+    id="money" 
+    placeholder="$ per week"
+    style="padding: 10px; font-size: 16px;"
+  />
+
+  <br><br>
+
+  <button 
+    onclick="calculate()" 
+    style="padding: 10px 18px; font-size: 16px; cursor: pointer;"
+  >
+    Check
+  </button>
+
+  <h2 id="result" style="margin-top: 30px;"></h2>
+
+  <script>
+    function calculate() {
+      const money = Number(document.getElementById("money").value);
+      const yearly = money * 52;
+
+      document.getElementById("result").innerText =
+        "That's $" + yearly.toLocaleString() + " per year 😳";
+    }
+  </script>
+
+</body>
+</html>
