@@ -117,7 +117,7 @@
       width: 100%;
       max-width: 520px;
       background:
-        linear-gradient(180deg, rgba(255, 243, 228, 0.97) 0%, rgba(252, 232, 212, 0.95) 100%);
+        linear-gradient(180deg, rgba(255, 243, 228, 0.98) 0%, rgba(252, 232, 212, 0.96) 100%);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-radius: 25px;
@@ -125,8 +125,8 @@
       text-align: center;
       box-shadow:
         0 20px 60px rgba(83, 49, 18, 0.15),
-        inset 0 1px 0 rgba(255,255,255,0.42);
-      border: 0.75px solid rgba(234, 88, 12, 0.22);
+        inset 0 1px 0 rgba(255,255,255,0.34);
+      border: 1.5px solid rgba(234, 88, 12, 0.26);
       position: relative;
       z-index: 3;
     }
@@ -201,15 +201,55 @@
 
     .result-box {
       margin-top: 20px;
-      padding: 18px;
-      border-radius: 15px;
+      padding: 24px 18px 18px;
+      border-radius: 22px;
       background:
-        linear-gradient(180deg, #f9ecdf 0%, #f3dfcc 100%);
-      border: 0.75px solid rgba(234, 88, 12, 0.22);
+        linear-gradient(145deg, #fff7f2 0%, #ffe6d6 48%, #ffd6bc 100%);
+      border: 1.4px solid rgba(234, 88, 12, 0.34);
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.36),
-        0 8px 20px rgba(234, 88, 12, 0.05);
+        0 14px 30px rgba(195, 96, 35, 0.12),
+        0 0 0 1px rgba(255, 194, 152, 0.25),
+        inset 0 1px 0 rgba(255,255,255,0.55);
       transition: transform 0.2s ease, opacity 0.2s ease;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .result-box::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.42), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(255, 154, 72, 0.18), transparent 38%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .result-box::after {
+      content: "highlight";
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(185, 72, 20, 0.78);
+      background: rgba(255, 244, 235, 0.72);
+      border: 1px solid rgba(234, 88, 12, 0.14);
+      padding: 4px 8px;
+      border-radius: 999px;
+      pointer-events: none;
+      z-index: 1;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    .result-box-inner {
+      position: relative;
+      z-index: 1;
     }
 
     .result {
@@ -217,6 +257,7 @@
       font-weight: 800;
       color: #b94814;
       line-height: 1.2;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.32);
     }
 
     .subtext {
@@ -241,7 +282,7 @@
     }
 
     .loading {
-      opacity: 0.82;
+      opacity: 0.86;
       transform: scale(0.99);
     }
 
@@ -270,7 +311,7 @@
         padding: 24px 16px 20px;
         border-radius: 22px;
         background:
-          linear-gradient(180deg, rgba(255, 241, 226, 0.97) 0%, rgba(251, 231, 210, 0.95) 100%);
+          linear-gradient(180deg, rgba(255, 241, 226, 0.98) 0%, rgba(251, 231, 210, 0.96) 100%);
       }
 
       h1 {
@@ -295,8 +336,17 @@
       }
 
       .result-box {
+        padding: 24px 16px 18px;
+        border-radius: 20px;
         background:
-          linear-gradient(180deg, #f8e8da 0%, #f1ddca 100%);
+          linear-gradient(145deg, #fff7f1 0%, #ffe7d8 48%, #ffd9c1 100%);
+      }
+
+      .result-box::after {
+        top: 10px;
+        right: 10px;
+        font-size: 9px;
+        padding: 4px 7px;
       }
     }
 
@@ -331,23 +381,12 @@
         padding: 42px 34px 34px;
         border-radius: 30px;
         background:
-          linear-gradient(180deg, rgba(255, 246, 234, 0.98) 0%, rgba(251, 233, 214, 0.96) 58%, rgba(245, 224, 202, 0.95) 100%);
+          linear-gradient(180deg, rgba(255, 246, 234, 0.99) 0%, rgba(251, 233, 214, 0.97) 58%, rgba(245, 224, 202, 0.96) 100%);
         box-shadow:
           0 26px 72px rgba(106, 60, 20, 0.14),
           0 10px 28px rgba(106, 60, 20, 0.07),
-          inset 0 1px 0 rgba(255,255,255,0.44);
-      }
-
-      .card::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        pointer-events: none;
-        background:
-          radial-gradient(circle at top center, rgba(255,255,255,0.26), transparent 34%),
-          linear-gradient(180deg, rgba(255,255,255,0.08), transparent 40%);
-        mix-blend-mode: screen;
+          inset 0 1px 0 rgba(255,255,255,0.30);
+        border: 1.7px solid rgba(234, 88, 12, 0.26);
       }
 
       .top-emoji {
@@ -402,10 +441,21 @@
 
       .result-box {
         margin-top: 26px;
-        padding: 26px 24px;
-        border-radius: 20px;
+        padding: 28px 24px 22px;
+        border-radius: 24px;
         background:
-          linear-gradient(180deg, #f8e9dc 0%, #f0dbc8 100%);
+          linear-gradient(145deg, #fff9f4 0%, #ffe7d7 42%, #ffd4b8 100%);
+        border: 1.5px solid rgba(234, 88, 12, 0.34);
+        box-shadow:
+          0 18px 34px rgba(179, 88, 29, 0.14),
+          0 0 0 1px rgba(255, 203, 165, 0.26),
+          inset 0 1px 0 rgba(255,255,255,0.58);
+      }
+
+      .result-box::after {
+        top: 12px;
+        right: 14px;
+        font-size: 10px;
       }
 
       .result {
@@ -500,8 +550,10 @@
       <button id="calcButton" onclick="calculate()">Show me the damage</button>
 
       <div class="result-box" id="resultBox">
-        <div class="result" id="result">Your total will show here</div>
-        <div class="subtext" id="subtext">Tiny burger bites can become a giant money monster.</div>
+        <div class="result-box-inner">
+          <div class="result" id="result">Your total will show here</div>
+          <div class="subtext" id="subtext">Tiny burger bites can become a giant money monster.</div>
+        </div>
       </div>
 
       <div class="mini-note">
@@ -608,6 +660,7 @@
       button.style.cursor = "wait";
 
       resultBox.classList.remove("result-pop");
+      void resultBox.offsetWidth;
       resultBox.classList.add("loading");
 
       result.innerText = "Calculating the damage...";
