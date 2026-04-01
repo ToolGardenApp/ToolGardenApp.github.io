@@ -201,18 +201,17 @@
 
     .result-box {
       margin-top: 20px;
-      padding: 24px 18px 18px;
-      border-radius: 30px;
+      padding: 26px 18px 20px;
+      border-radius: 36px;
       background:
-        radial-gradient(circle at 25% 20%, rgba(255,255,255,0.55), transparent 24%),
-        radial-gradient(circle at 80% 78%, rgba(255, 173, 102, 0.18), transparent 28%),
-        linear-gradient(145deg, #fffaf6 0%, #ffe9db 50%, #ffd8c1 100%);
+        radial-gradient(circle at 24% 16%, rgba(255,255,255,0.68), transparent 20%),
+        radial-gradient(circle at 78% 82%, rgba(255, 170, 90, 0.16), transparent 30%),
+        linear-gradient(145deg, #fffaf7 0%, #ffe9db 48%, #ffd5bc 100%);
       border: 2px solid rgba(234, 88, 12, 0.34);
       box-shadow:
-        0 16px 32px rgba(195, 96, 35, 0.14),
-        0 0 0 1px rgba(255, 207, 173, 0.22),
-        inset 0 2px 0 rgba(255,255,255,0.65),
-        inset 0 -6px 14px rgba(234, 88, 12, 0.05);
+        0 18px 34px rgba(195, 96, 35, 0.16),
+        inset 0 3px 0 rgba(255,255,255,0.72),
+        inset 0 -10px 18px rgba(234, 88, 12, 0.06);
       transition: transform 0.2s ease, opacity 0.2s ease;
       position: relative;
       overflow: hidden;
@@ -222,9 +221,27 @@
     .result-box::before {
       content: "";
       position: absolute;
-      inset: 8px;
-      border-radius: 24px;
-      border: 1px solid rgba(255,255,255,0.30);
+      top: 10px;
+      left: 14%;
+      width: 42%;
+      height: 22px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.08));
+      filter: blur(1px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .result-box::after {
+      content: "";
+      position: absolute;
+      right: 26px;
+      bottom: 18px;
+      width: 70px;
+      height: 28px;
+      border-radius: 999px;
+      background: rgba(255, 163, 87, 0.10);
+      filter: blur(8px);
       pointer-events: none;
       z-index: 0;
     }
@@ -319,16 +336,25 @@
 
       .result-box {
         padding: 24px 16px 18px;
-        border-radius: 28px;
+        border-radius: 32px;
         background:
-          radial-gradient(circle at 25% 20%, rgba(255,255,255,0.58), transparent 22%),
-          radial-gradient(circle at 82% 80%, rgba(255, 173, 102, 0.16), transparent 26%),
-          linear-gradient(145deg, #fff8f3 0%, #ffe8d9 50%, #ffd9c3 100%);
+          radial-gradient(circle at 24% 16%, rgba(255,255,255,0.70), transparent 18%),
+          radial-gradient(circle at 80% 82%, rgba(255, 170, 90, 0.14), transparent 28%),
+          linear-gradient(145deg, #fff8f4 0%, #ffe8d9 50%, #ffd8c2 100%);
       }
 
       .result-box::before {
-        inset: 7px;
-        border-radius: 22px;
+        top: 8px;
+        left: 13%;
+        width: 46%;
+        height: 18px;
+      }
+
+      .result-box::after {
+        right: 18px;
+        bottom: 14px;
+        width: 56px;
+        height: 24px;
       }
     }
 
@@ -424,22 +450,30 @@
       .result-box {
         margin-top: 26px;
         padding: 30px 24px 22px;
-        border-radius: 34px;
+        border-radius: 40px;
         background:
-          radial-gradient(circle at 24% 18%, rgba(255,255,255,0.60), transparent 22%),
-          radial-gradient(circle at 82% 80%, rgba(255, 171, 95, 0.20), transparent 30%),
-          linear-gradient(145deg, #fffaf6 0%, #ffe8d7 42%, #ffd3b4 100%);
+          radial-gradient(circle at 22% 14%, rgba(255,255,255,0.72), transparent 18%),
+          radial-gradient(circle at 80% 82%, rgba(255, 171, 95, 0.18), transparent 30%),
+          linear-gradient(145deg, #fffaf7 0%, #ffe8d7 42%, #ffd3b4 100%);
         border: 2px solid rgba(234, 88, 12, 0.36);
         box-shadow:
           0 20px 36px rgba(179, 88, 29, 0.16),
-          0 0 0 1px rgba(255, 203, 165, 0.20),
-          inset 0 2px 0 rgba(255,255,255,0.68),
-          inset 0 -8px 18px rgba(234, 88, 12, 0.05);
+          inset 0 3px 0 rgba(255,255,255,0.74),
+          inset 0 -10px 20px rgba(234, 88, 12, 0.06);
       }
 
       .result-box::before {
-        inset: 9px;
-        border-radius: 28px;
+        top: 10px;
+        left: 15%;
+        width: 40%;
+        height: 24px;
+      }
+
+      .result-box::after {
+        right: 28px;
+        bottom: 18px;
+        width: 78px;
+        height: 30px;
       }
 
       .result {
