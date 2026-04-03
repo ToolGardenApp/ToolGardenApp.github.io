@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Coffee Spending Calculator | ToolGarden</title>
+  <meta name="description" content="Estimate how much you spend on coffee each year and compare it to the cost of making 16 oz coffee at home." />
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      color: #2f241d;
+      overflow-x: hidden;
+      position: relative;
+      background:
+        radial-gradient(circle at top left, rgba(255, 197, 109, 0.52), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(255, 130, 64, 0.34), transparent 32%),
+        linear-gradient(180deg, #f2dcc4 0%, #e3c3a8 100%);
+    }
+
+    .page-wrap {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .background {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .background span {
+      position: absolute;
+      bottom: -140px;
+      font-size: 2.5rem;
+      opacity: 0.30;
+      animation: floatUp linear infinite;
+      user-select: none;
+      filter: saturate(1.05);
+      text-shadow: 0 4px 18px rgba(255, 255, 255, 0.14);
+      will-change: transform, opacity;
+    }
+
+    .background span:nth-child(1)  { left: 3%;  animation-duration: 16s; animation-delay: 0s; }
+    .background span:nth-child(2)  { left: 10%; animation-duration: 20s; animation-delay: 3s; }
+    .background span:nth-child(3)  { left: 18%; animation-duration: 17s; animation-delay: 1s; }
+    .background span:nth-child(4)  { left: 26%; animation-duration: 22s; animation-delay: 5s; }
+    .background span:nth-child(5)  { left: 34%; animation-duration: 18s; animation-delay: 2s; }
+    .background span:nth-child(6)  { left: 42%; animation-duration: 21s; animation-delay: 6s; }
+    .background span:nth-child(7)  { left: 50%; animation-duration: 17s; animation-delay: 4s; }
+    .background span:nth-child(8)  { left: 58%; animation-duration: 23s; animation-delay: 1.5s; }
+    .background span:nth-child(9)  { left: 66%; animation-duration: 19s; animation-delay: 4.5s; }
+    .background span:nth-child(10) { left: 74%; animation-duration: 24s; animation-delay: 2.5s; }
+    .background span:nth-child(11) { left: 82%; animation-duration: 18s; animation-delay: 6.5s; }
+    .background span:nth-child(12) { left: 90%; animation-duration: 21s; animation-delay: 3.5s; }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(0deg) scale(0.96);
+        opacity: 0;
+      }
+      8% {
+        opacity: 0.30;
+      }
+      70% {
+        opacity: 0.30;
+      }
+      100% {
+        transform: translateY(-128vh) rotate(360deg) scale(1.08);
+        opacity: 0;
+      }
+    }
+
+    .glow,
+    .glow2 {
+      position: fixed;
+      width: 380px;
+      height: 380px;
+      border-radius: 50%;
+      filter: blur(135px);
+      opacity: 0.36;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .glow {
+      background: #ffb347;
+      top: 4%;
+      left: 4%;
+    }
+
+    .glow2 {
+      background: #ff8748;
+      bottom: 4%;
+      right: 4%;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 680px;
+      background:
+        linear-gradient(180deg, rgba(255, 243, 228, 0.98) 0%, rgba(252, 232, 212, 0.96) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 25px;
+      padding: 30px 20px;
+      text-align: center;
+      box-shadow:
+        0 20px 60px rgba(83, 49, 18, 0.15),
+        inset 0 1px 0 rgba(255,255,255,0.34);
+      border: 2px solid rgba(234, 88, 12, 0.26);
+      position: relative;
+      z-index: 3;
+    }
+
+    .tool-switcher {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .tool-link {
+      display: inline-block;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(234, 88, 12, 0.24);
+      background: rgba(255,255,255,0.55);
+      color: #8a4a24;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+    }
+
+    .tool-link:hover {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.78);
+      border-color: rgba(234, 88, 12, 0.38);
+    }
+
+    .tool-link.active {
+      background: linear-gradient(135deg, #f15a08, #ca430d);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 10px 22px rgba(234, 88, 12, 0.18);
+    }
+
+    .top-emoji {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.15;
+      color: #2f241d;
+    }
+
+    .subtitle {
+      color: #6a5648;
+      margin: 15px 0 25px;
+      line-height: 1.5;
+      font-size: 15px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      text-align: left;
+    }
+
+    .field-group {
+      text-align: left;
+    }
+
+    .input-label {
+      display: block;
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 10px;
+      color: #5c4638;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(214, 132, 74, 0.34);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(255,248,241,0.92) 100%);
+      color: #2f241d;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.45);
+    }
+
+    input::placeholder {
+      color: #8d8075;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: #ea580c;
+      box-shadow: 0 0 0 4px rgba(234, 88, 12, 0.14);
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 18px;
+      background: linear-gradient(135deg, #f15a08, #ca430d);
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow:
+        0 10px 24px rgba(234, 88, 12, 0.20),
+        inset 0 1px 0 rgba(255,255,255,0.18);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease, opacity 0.18s ease;
+    }
+
+    .result-box {
+      margin-top: 20px;
+      padding: 24px 18px 18px;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.38), transparent 30%),
+        linear-gradient(145deg, #fff8f3 0%, #ffe6d5 45%, #ffd7bf 100%);
+      border: 2px solid rgba(234, 88, 12, 0.30);
+      box-shadow:
+        0 16px 30px rgba(179, 88, 29, 0.12),
+        inset 0 1px 0 rgba(255,255,255,0.52),
+        inset 0 -8px 18px rgba(234, 88, 12, 0.04);
+      position: relative;
+      overflow: hidden;
+      text-align: left;
+    }
+
+    .result-box::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.10), transparent 32%),
+        radial-gradient(circle at 85% 85%, rgba(255, 164, 92, 0.10), transparent 30%);
+      pointer-events: none;
+    }
+
+    .result-box-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .result {
+      font-size: 22px;
+      font-weight: 800;
+      color: #b94814;
+      line-height: 1.2;
+      text-align: center;
+    }
+
+    .subtext {
+      margin-top: 10px;
+      color: #665f59;
+      font-size: 14px;
+      line-height: 1.45;
+      min-height: 20px;
+      text-align: center;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .stat-card {
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.5);
+      border: 1px solid rgba(234, 88, 12, 0.16);
+    }
+
+    .stat-title {
+      font-weight: 800;
+      color: #8d4517;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .stat-text {
+      color: #6a5648;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .info-section {
+      margin-top: 20px;
+      text-align: left;
+      font-size: 14px;
+      color: #5c4638;
+      line-height: 1.65;
+    }
+
+    .info-section h2 {
+      font-size: 18px;
+      margin: 0 0 10px;
+      color: #2f241d;
+    }
+
+    .mini-note {
+      margin-top: 16px;
+      font-size: 13px;
+      color: #8a7467;
+      line-height: 1.45;
+    }
+
+    .footer {
+      margin-top: 22px;
+      font-size: 12px;
+      color: #a79b92;
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    .footer a {
+      color: #a35a35;
+      text-decoration: none;
+      font-weight: 700;
+      margin: 0 5px;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    .loading {
+      opacity: 0.86;
+      transform: scale(0.99);
+    }
+
+    .result-pop {
+      animation: resultPop 0.35s ease;
+    }
+
+    @keyframes resultPop {
+      0% {
+        transform: translateY(6px) scale(0.985);
+        opacity: 0.72;
+      }
+      100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+    }
+
+    @media (min-width: 700px) {
+      .form-grid,
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .page-wrap {
+        padding: 16px 12px;
+      }
+
+      .card {
+        padding: 24px 16px 20px;
+        border-radius: 22px;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+
+      .subtitle {
+        font-size: 14px;
+      }
+
+      .background span {
+        font-size: 2.35rem;
+        opacity: 0.34;
+      }
+
+      .glow,
+      .glow2 {
+        width: 250px;
+        height: 250px;
+        filter: blur(95px);
+        opacity: 0.32;
+      }
+
+      .tool-link {
+        font-size: 13px;
+        padding: 9px 12px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      body {
+        background:
+          radial-gradient(circle at 12% 18%, rgba(255, 209, 122, 0.56), transparent 23%),
+          radial-gradient(circle at 85% 78%, rgba(255, 140, 74, 0.34), transparent 26%),
+          linear-gradient(135deg, #e8ccb1 0%, #ddbda0 50%, #e9cfb7 100%);
+      }
+
+      .page-wrap {
+        padding: 48px;
+      }
+
+      .card {
+        padding: 42px 34px 34px;
+        border-radius: 30px;
+      }
+
+      .top-emoji {
+        font-size: 2.2rem;
+        margin-bottom: 10px;
+      }
+
+      h1 {
+        font-size: 3rem;
+        line-height: 1.04;
+        letter-spacing: -0.04em;
+        max-width: 560px;
+        margin: 0 auto;
+      }
+
+      .subtitle {
+        font-size: 1.12rem;
+        max-width: 560px;
+        margin: 18px auto 28px;
+      }
+
+      .input-label {
+        font-size: 16px;
+      }
+
+      input,
+      select {
+        padding: 18px 20px;
+        font-size: 18px;
+        border-radius: 16px;
+      }
+
+      button {
+        padding: 18px 20px;
+        font-size: 18px;
+        border-radius: 16px;
+      }
+
+      button:hover {
+        transform: translateY(-2px) scale(1.012);
+        box-shadow:
+          0 16px 36px rgba(234, 88, 12, 0.28),
+          inset 0 1px 0 rgba(255,255,255,0.20);
+        filter: brightness(1.04) saturate(1.04);
+      }
+
+      .result {
+        font-size: 2.2rem;
+      }
+
+      .subtext,
+      .stat-text,
+      .info-section {
+        font-size: 1rem;
+      }
+
+      .footer {
+        font-size: 13px;
+      }
+
+      .background span {
+        font-size: 3rem;
+        opacity: 0.28;
+      }
+
+      .glow,
+      .glow2 {
+        width: 470px;
+        height: 470px;
+        filter: blur(150px);
+        opacity: 0.32;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="background">
+    <span>☕</span>
+    <span>💸</span>
+    <span>🧋</span>
+    <span>🥐</span>
+    <span>💳</span>
+    <span>☕</span>
+    <span>🧾</span>
+    <span>🍪</span>
+    <span>🫖</span>
+    <span>🍩</span>
+    <span>💰</span>
+    <span>🥤</span>
+  </div>
+
+  <div class="glow"></div>
+  <div class="glow2"></div>
+
+  <div class="page-wrap">
+    <div class="card">
+      <div class="tool-switcher">
+        <a class="tool-link" href="index.html">Eating Out</a>
+        <a class="tool-link active" href="coffee.html">Coffee Runs</a>
+      </div>
+
+      <div class="top-emoji">☕💸</div>
+
+      <h1>How Much Do You Spend on Coffee?</h1>
+
+      <p class="subtitle">
+        Compare your current coffee spending to the estimated cost of making a 16 oz coffee at home, from simple black coffee to sweeter café-style versions.
+      </p>
+
+      <div class="form-grid">
+        <div class="field-group">
+          <label class="input-label" for="weeklySpend">Your weekly coffee spending</label>
+          <input type="number" id="weeklySpend" placeholder="Enter $ per week" />
+        </div>
+
+        <div class="field-group">
+          <label class="input-label" for="cupsPerWeek">How many coffees you buy per week?</label>
+          <input type="number" id="cupsPerWeek" placeholder="Example: 5" />
+        </div>
+
+        <div class="field-group" style="grid-column: 1 / -1;">
+          <label class="input-label" for="coffeeType">Choose your homemade 16 oz coffee style</label>
+          <select id="coffeeType">
+            <option value="0.45">Black coffee - about $0.45 per 16 oz</option>
+            <option value="0.70">Coffee with creamer - about $0.70 per 16 oz</option>
+            <option value="0.95">Vanilla coffee - about $0.95 per 16 oz</option>
+            <option value="1.15">Sweet flavored coffee - about $1.15 per 16 oz</option>
+            <option value="1.35">Iced coffee at home - about $1.35 per 16 oz</option>
+            <option value="1.85">Latte-style homemade coffee - about $1.85 per 16 oz</option>
+          </select>
+        </div>
+      </div>
+
+      <button id="calcButton" onclick="calculate()">Show me the damage</button>
+
+      <div class="result-box" id="resultBox">
+        <div class="result-box-inner">
+          <div class="result" id="result">Your total will show here</div>
+          <div class="subtext" id="subtext">Tiny coffee rituals can quietly become a whole financial subplot.</div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-title">Estimated cost for 1 homemade 16 oz coffee</div>
+              <div class="stat-text" id="homeCupCost">
+                Pick a coffee style to see the estimated at-home cost.
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-title">Estimated café cost per coffee</div>
+              <div class="stat-text" id="cafeCupCost">
+                Enter your spending and coffees per week.
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-title">Estimated weekly home coffee cost</div>
+              <div class="stat-text" id="weeklyHomeCost">
+                We’ll estimate what those same coffees could cost at home.
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-title">Potential savings</div>
+              <div class="stat-text" id="saveText">
+                Your savings estimate will show here.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mini-note">
+        These are rough estimates, not sacred bean scripture. They’re designed to give a realistic comparison, not laboratory-grade coffee economics.
+      </div>
+
+      <div class="info-section">
+        <h2>How this works</h2>
+        <p>
+          This tool compares what you currently spend on coffee to a rough at-home cost for a 16 oz homemade version. Pick the style closest to what you usually like.
+        </p>
+
+        <h2>What’s included in the homemade price</h2>
+        <p>
+          The estimates assume basic ingredients like ground coffee, milk or creamer, syrups, sugar, ice, and simple add-ins depending on the option you choose.
+        </p>
+      </div>
+
+      <div class="footer">
+        ToolGarden • tiny tools, big realizations<br><br>
+        <a href="about.html">About</a> •
+        <a href="privacy.html">Privacy</a> •
+        <a href="terms.html">Terms</a> •
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const reactions = {
+      tiny: [
+        "This is giving 'occasional little latte cameo.'",
+        "Your coffee budget is acting surprisingly civilized.",
+        "This number is so polite it practically said please.",
+        "Either you're disciplined or your caffeine habits are undercover."
+      ],
+      low: [
+        "Not bad, but this is still a sneaky little bean tax.",
+        "Cute total. Softly rude, but cute.",
+        "Nothing catastrophic here, just a gentle drip-drip on your budget.",
+        "This still counts, even if it wears cozy little foam art."
+      ],
+      mediumLow: [
+        "Now we're entering daily habit with a price tag energy.",
+        "This is where coffee starts becoming a budget character.",
+        "Not wild, but definitely not invisible either.",
+        "A very normal habit with slightly expensive taste."
+      ],
+      medium: [
+        "Okay yep, your coffee habit has developed its own storyline.",
+        "This is firmly in 'wait... really?' territory.",
+        "That caffeine convenience is getting comfortable in your wallet.",
+        "A charming routine with a moderately sharp invoice."
+      ],
+      high: [
+        "Your coffee habit is no longer a side character.",
+        "This has crossed into premium bean behavior.",
+        "Your budget can absolutely feel this one.",
+        "Respectfully, your coffee apps are thriving."
+      ],
+      veryHigh: [
+        "At this point, your latte habit has executive power.",
+        "This number arrived wearing expensive boots and oat milk.",
+        "We're officially beyond cute treat math and into plot twist math.",
+        "Your caffeine budget is moving like a final boss with foam art."
+      ],
+      absurd: [
+        "Respectfully... this has become a lifestyle franchise.",
+        "Your coffee spending has entered cinematic territory.",
+        "At this level, the café staff probably knows your emotional arc.",
+        "Your wallet didn't lose a battle. It lost a whole roast."
+      ]
+    };
+
+    function randomFrom(array) {
+      return array[Math.floor(Math.random() * array.length)];
+    }
+
+    function getReaction(yearly, fiveYear) {
+      if (yearly <= 104) {
+        return randomFrom(reactions.tiny);
+      } else if (yearly <= 750) {
+        return randomFrom(reactions.low);
+      } else if (yearly <= 1800) {
+        return randomFrom(reactions.mediumLow);
+      } else if (yearly <= 3500) {
+        return `${randomFrom(reactions.medium)} In 5 years, that's $${fiveYear.toLocaleString()}.`;
+      } else if (yearly <= 6000) {
+        return `${randomFrom(reactions.high)} In 5 years, that's $${fiveYear.toLocaleString()}.`;
+      } else if (yearly <= 10000) {
+        return `${randomFrom(reactions.veryHigh)} In 5 years, that's $${fiveYear.toLocaleString()} 😬`;
+      } else {
+        return `${randomFrom(reactions.absurd)} In 5 years, that's $${fiveYear.toLocaleString()} 💀`;
+      }
+    }
+
+    function formatMoney(value) {
+      return `$${value.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      })}`;
+    }
+
+    function calculate() {
+      const weeklySpend = Number(document.getElementById("weeklySpend").value);
+      const cupsPerWeek = Number(document.getElementById("cupsPerWeek").value);
+      const coffeeType = document.getElementById("coffeeType");
+      const homeCupPrice = Number(coffeeType.value);
+      const coffeeTypeText = coffeeType.options[coffeeType.selectedIndex].text.split(" - ")[0];
+
+      const result = document.getElementById("result");
+      const subtext = document.getElementById("subtext");
+      const resultBox = document.getElementById("resultBox");
+      const button = document.getElementById("calcButton");
+
+      const homeCupCost = document.getElementById("homeCupCost");
+      const cafeCupCost = document.getElementById("cafeCupCost");
+      const weeklyHomeCost = document.getElementById("weeklyHomeCost");
+      const saveText = document.getElementById("saveText");
+
+      if (!weeklySpend || weeklySpend < 0 || !cupsPerWeek || cupsPerWeek <= 0) {
+        result.innerText = "Enter real numbers 👀";
+        subtext.innerText = "Try your honest weekly spending and coffee count.";
+        homeCupCost.innerText = "Pick a style and enter valid amounts.";
+        cafeCupCost.innerText = "We need your weekly spend and number of coffees.";
+        weeklyHomeCost.innerText = "We’ll estimate this once the numbers are in.";
+        saveText.innerText = "Savings will show here after valid input.";
+        return;
+      }
+
+      const yearly = weeklySpend * 52;
+      const fiveYear = yearly * 5;
+
+      const averageCafeCupCost = weeklySpend / cupsPerWeek;
+      const estimatedWeeklyHomeCost = homeCupPrice * cupsPerWeek;
+      const yearlyHomeCost = estimatedWeeklyHomeCost * 52;
+      const yearlySavings = Math.max(0, yearly - yearlyHomeCost);
+      const fiveYearSavings = yearlySavings * 5;
+
+      button.disabled = true;
+      button.style.opacity = "0.9";
+      button.style.cursor = "wait";
+
+      resultBox.classList.remove("result-pop");
+      void resultBox.offsetWidth;
+      resultBox.classList.add("loading");
+
+      result.innerText = "Brewing the budget truth...";
+      subtext.innerText = "Frothing up your annual coffee confession...";
+      homeCupCost.innerText = "Calculating...";
+      cafeCupCost.innerText = "Calculating...";
+      weeklyHomeCost.innerText = "Calculating...";
+      saveText.innerText = "Calculating...";
+
+      setTimeout(() => {
+        result.innerText = `${formatMoney(yearly)} per year 😳`;
+        subtext.innerText = getReaction(yearly, fiveYear);
+
+        homeCupCost.innerText = `${coffeeTypeText}: about ${formatMoney(homeCupPrice)} for one 16 oz homemade coffee.`;
+        cafeCupCost.innerText = `Based on your numbers, you're paying about ${formatMoney(averageCafeCupCost)} per coffee.`;
+        weeklyHomeCost.innerText = `If you made ${cupsPerWeek} of those at home, it would cost about ${formatMoney(estimatedWeeklyHomeCost)} per week.`;
+        saveText.innerText = `That could save about ${formatMoney(yearlySavings)} per year, or around ${formatMoney(fiveYearSavings)} over 5 years.`;
+
+        resultBox.classList.remove("loading");
+        resultBox.classList.add("result-pop");
+
+        button.disabled = false;
+        button.style.opacity = "1";
+        button.style.cursor = "pointer";
+      }, 550);
+    }
+  </script>
+</body>
+</html>
