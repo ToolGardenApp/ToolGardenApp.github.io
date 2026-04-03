@@ -322,6 +322,58 @@
       line-height: 1.5;
     }
 
+    .upgrade-strip {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 18px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.62) 0%, rgba(255,243,232,0.78) 100%);
+      border: 1px solid rgba(234, 88, 12, 0.18);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.4);
+    }
+
+    .upgrade-heading {
+      font-size: 15px;
+      font-weight: 800;
+      color: #8d4517;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .upgrade-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .upgrade-card {
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.58);
+      border: 1px solid rgba(234, 88, 12, 0.14);
+      text-align: center;
+    }
+
+    .upgrade-label {
+      font-size: 13px;
+      font-weight: 800;
+      color: #9b5322;
+      margin-bottom: 6px;
+    }
+
+    .upgrade-value {
+      font-size: 20px;
+      font-weight: 800;
+      color: #b94814;
+      line-height: 1.2;
+    }
+
+    .upgrade-copy {
+      margin-top: 6px;
+      font-size: 13px;
+      color: #6a5648;
+      line-height: 1.45;
+    }
+
     .info-section {
       margin-top: 20px;
       text-align: left;
@@ -384,11 +436,16 @@
 
     @media (min-width: 700px) {
       .form-grid,
-      .stats-grid {
+      .stats-grid,
+      .upgrade-grid {
         grid-template-columns: 1fr 1fr;
       }
 
       .meal-wide {
+        grid-column: 1 / -1;
+      }
+
+      .upgrade-card.wide {
         grid-column: 1 / -1;
       }
     }
@@ -427,6 +484,10 @@
       .tool-link {
         font-size: 13px;
         padding: 9px 12px;
+      }
+
+      .upgrade-value {
+        font-size: 18px;
       }
     }
 
@@ -499,6 +560,18 @@
       .stat-text,
       .info-section {
         font-size: 1rem;
+      }
+
+      .upgrade-heading {
+        font-size: 16px;
+      }
+
+      .upgrade-value {
+        font-size: 24px;
+      }
+
+      .upgrade-copy {
+        font-size: 14px;
       }
 
       .footer {
@@ -614,6 +687,35 @@
               <div class="stat-title">Potential savings range</div>
               <div class="stat-text" id="saveText">
                 Your lower, average, and higher savings estimate will show here.
+              </div>
+            </div>
+          </div>
+
+          <div class="upgrade-strip">
+            <div class="upgrade-heading">What that could become</div>
+
+            <div class="upgrade-grid">
+              <div class="upgrade-card">
+                <div class="upgrade-label">Average savings in 1 year</div>
+                <div class="upgrade-value" id="oneYearValue">$0.00</div>
+                <div class="upgrade-copy" id="oneYearCopy">
+                  Your average yearly savings estimate will show here.
+                </div>
+              </div>
+
+              <div class="upgrade-card">
+                <div class="upgrade-label">Average savings in 5 years</div>
+                <div class="upgrade-value" id="fiveYearValue">$0.00</div>
+                <div class="upgrade-copy" id="fiveYearCopy">
+                  Your average five-year savings estimate will show here.
+                </div>
+              </div>
+
+              <div class="upgrade-card wide">
+                <div class="upgrade-label">Tiny habit, bigger picture</div>
+                <div class="upgrade-copy" id="upgradeComparison">
+                  That future-value reality check will show up here after you calculate.
+                </div>
               </div>
             </div>
           </div>
@@ -772,6 +874,22 @@
       })}`;
     }
 
+    function getSavingsComparison(amount) {
+      if (amount < 150) {
+        return "That’s a few groceries, a couple of comfort-food nights, or one less tiny budget leak wearing a fake mustache.";
+      } else if (amount < 500) {
+        return "That’s enough to cover a solid grocery reset, a utility bill chunk, or a very smug kitchen era.";
+      } else if (amount < 1200) {
+        return "That’s getting into real-money territory. Think groceries, bills, or a little emergency-cushion energy.";
+      } else if (amount < 3000) {
+        return "That could become a meaningful cushion instead of disappearing into burgers, fries, and mysterious convenience fees.";
+      } else if (amount < 7000) {
+        return "That’s the kind of money that starts feeling like a mini life upgrade instead of random meal confetti.";
+      } else {
+        return "That is no longer snack math. That’s full-on future-you money.";
+      }
+    }
+
     function calculate() {
       const weeklySpend = Number(document.getElementById("weeklySpend").value);
       const mealsPerWeek = Number(document.getElementById("mealsPerWeek").value);
@@ -788,6 +906,12 @@
       const weeklyHomeCost = document.getElementById("weeklyHomeCost");
       const saveText = document.getElementById("saveText");
 
+      const oneYearValue = document.getElementById("oneYearValue");
+      const fiveYearValue = document.getElementById("fiveYearValue");
+      const oneYearCopy = document.getElementById("oneYearCopy");
+      const fiveYearCopy = document.getElementById("fiveYearCopy");
+      const upgradeComparison = document.getElementById("upgradeComparison");
+
       if (!weeklySpend || weeklySpend < 0 || !mealsPerWeek || mealsPerWeek <= 0) {
         result.innerText = "Enter real numbers 👀";
         subtext.innerText = "Try your honest weekly spending and meal count.";
@@ -795,6 +919,12 @@
         boughtMealCost.innerText = "We need your weekly spend and number of bought meals.";
         weeklyHomeCost.innerText = "We’ll estimate this once the numbers are in.";
         saveText.innerText = "Savings range will show here after valid input.";
+
+        oneYearValue.innerText = "$0.00";
+        fiveYearValue.innerText = "$0.00";
+        oneYearCopy.innerText = "Your average yearly savings estimate will show here.";
+        fiveYearCopy.innerText = "Your average five-year savings estimate will show here.";
+        upgradeComparison.innerText = "That future-value reality check will show up here after you calculate.";
         return;
       }
 
@@ -828,6 +958,11 @@
       boughtMealCost.innerText = "Calculating...";
       weeklyHomeCost.innerText = "Calculating...";
       saveText.innerText = "Calculating...";
+      oneYearValue.innerText = "...";
+      fiveYearValue.innerText = "...";
+      oneYearCopy.innerText = "Calculating...";
+      fiveYearCopy.innerText = "Calculating...";
+      upgradeComparison.innerText = "Calculating...";
 
       setTimeout(() => {
         result.innerText = `${formatMoney(yearly)} per year 😳`;
@@ -836,7 +971,13 @@
         homeMealCost.innerText = `${meal.name} at home: about ${formatMoney(meal.low)} to ${formatMoney(meal.high)} per meal, with an average around ${formatMoney(meal.avg)}.`;
         boughtMealCost.innerText = `Based on your numbers, you're spending about ${formatMoney(averageBoughtMeal)} per bought meal.`;
         weeklyHomeCost.innerText = `If you made ${mealsPerWeek} of those meals at home, that could cost about ${formatMoney(weeklyHomeLow)} to ${formatMoney(weeklyHomeHigh)} per week, averaging around ${formatMoney(weeklyHomeAvg)}.`;
-        saveText.innerText = `Potential yearly savings: about ${formatMoney(yearlySaveLow)} to ${formatMoney(yearlySaveHigh)}, averaging around ${formatMoney(yearlySaveAvg)}. Over 5 years, that's about ${formatMoney(fiveYearSaveLow)} to ${formatMoney(fiveYearSaveHigh)}, with an average around ${formatMoney(fiveYearSaveAvg)}.`;
+        saveText.innerText = `Potential yearly savings: about ${formatMoney(yearlySaveLow)} to ${formatMoney(yearlySaveHigh)}, averaging around ${formatMoney(yearlySaveAvg)}. Over 5 years, that could become about ${formatMoney(fiveYearSaveLow)} to ${formatMoney(fiveYearSaveHigh)}.`;
+
+        oneYearValue.innerText = formatMoney(yearlySaveAvg);
+        fiveYearValue.innerText = formatMoney(fiveYearSaveAvg);
+        oneYearCopy.innerText = "That’s your average estimated savings if you replaced those meals with homemade versions for a year.";
+        fiveYearCopy.innerText = "Same habit shift, stretched over 5 years. Tiny choices can stack like little budget goblins.";
+        upgradeComparison.innerText = getSavingsComparison(fiveYearSaveAvg);
 
         resultBox.classList.remove("loading");
         resultBox.classList.add("result-pop");
@@ -844,7 +985,7 @@
         button.disabled = false;
         button.style.opacity = "1";
         button.style.cursor = "pointer";
-      }, 550);
+      }, 500);
     }
   </script>
 </body>
