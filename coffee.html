@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
   <title>Coffee Spending Calculator | ToolGarden</title>
   <meta name="description" content="Estimate how much you spend on coffee each year and compare it to the cost of making 16 oz coffee at home." />
 
@@ -117,7 +116,7 @@
 
     .card {
       width: 100%;
-      max-width: 680px;
+      max-width: 760px;
       background:
         linear-gradient(180deg, rgba(255, 243, 228, 0.98) 0%, rgba(252, 232, 212, 0.96) 100%);
       backdrop-filter: blur(12px);
@@ -388,6 +387,10 @@
       .stats-grid {
         grid-template-columns: 1fr 1fr;
       }
+
+      .coffee-wide {
+        grid-column: 1 / -1;
+      }
     }
 
     @media (max-width: 480px) {
@@ -549,7 +552,7 @@
       <h1>How Much Do You Spend on Coffee?</h1>
 
       <p class="subtitle">
-        Compare your current coffee spending to the estimated cost of making a 16 oz coffee at home, from simple black coffee to sweeter café-style versions.
+        Compare your current coffee spending to the estimated cost of making a 16 oz coffee at home, from plain black coffee to sweeter café-style creations.
       </p>
 
       <div class="form-grid">
@@ -559,19 +562,19 @@
         </div>
 
         <div class="field-group">
-          <label class="input-label" for="cupsPerWeek">How many coffees you buy per week?</label>
+          <label class="input-label" for="cupsPerWeek">How many coffees do you buy per week?</label>
           <input type="number" id="cupsPerWeek" placeholder="Example: 5" />
         </div>
 
-        <div class="field-group" style="grid-column: 1 / -1;">
+        <div class="field-group coffee-wide">
           <label class="input-label" for="coffeeType">Choose your homemade 16 oz coffee style</label>
           <select id="coffeeType">
-            <option value="0.45">Black coffee - about $0.45 per 16 oz</option>
-            <option value="0.70">Coffee with creamer - about $0.70 per 16 oz</option>
-            <option value="0.95">Vanilla coffee - about $0.95 per 16 oz</option>
-            <option value="1.15">Sweet flavored coffee - about $1.15 per 16 oz</option>
-            <option value="1.35">Iced coffee at home - about $1.35 per 16 oz</option>
-            <option value="1.85">Latte-style homemade coffee - about $1.85 per 16 oz</option>
+            <option value="black">Black coffee</option>
+            <option value="creamer">Coffee with creamer</option>
+            <option value="vanilla">Vanilla coffee</option>
+            <option value="sweet">Sweet flavored coffee</option>
+            <option value="iced">Iced coffee at home</option>
+            <option value="latte">Latte-style homemade coffee</option>
           </select>
         </div>
       </div>
@@ -585,9 +588,9 @@
 
           <div class="stats-grid">
             <div class="stat-card">
-              <div class="stat-title">Estimated cost for 1 homemade 16 oz coffee</div>
+              <div class="stat-title">Homemade 16 oz coffee cost estimate</div>
               <div class="stat-text" id="homeCupCost">
-                Pick a coffee style to see the estimated at-home cost.
+                Pick a style to see its estimated at-home cost range.
               </div>
             </div>
 
@@ -606,9 +609,9 @@
             </div>
 
             <div class="stat-card">
-              <div class="stat-title">Potential savings</div>
+              <div class="stat-title">Potential savings range</div>
               <div class="stat-text" id="saveText">
-                Your savings estimate will show here.
+                Your lower, average, and higher savings estimate will show here.
               </div>
             </div>
           </div>
@@ -616,18 +619,18 @@
       </div>
 
       <div class="mini-note">
-        These are rough estimates, not sacred bean scripture. They’re designed to give a realistic comparison, not laboratory-grade coffee economics.
+        These are rough comparison estimates, not bean sorcery certified by an espresso council.
       </div>
 
       <div class="info-section">
         <h2>How this works</h2>
         <p>
-          This tool compares what you currently spend on coffee to a rough at-home cost for a 16 oz homemade version. Pick the style closest to what you usually like.
+          This tool compares what you currently spend on coffee to the estimated cost of making a similar 16 oz coffee at home. Because ingredient costs vary, it gives you a savings range instead of pretending there’s one holy universal latte number.
         </p>
 
-        <h2>What’s included in the homemade price</h2>
+        <h2>What the home estimate includes</h2>
         <p>
-          The estimates assume basic ingredients like ground coffee, milk or creamer, syrups, sugar, ice, and simple add-ins depending on the option you choose.
+          Depending on the option you choose, the at-home range accounts for basics like coffee, milk or creamer, sweetener, syrups, and ice where relevant.
         </p>
       </div>
 
@@ -642,6 +645,45 @@
   </div>
 
   <script>
+    const coffeeData = {
+      black: {
+        name: "Black coffee",
+        low: 0.30,
+        avg: 0.45,
+        high: 0.65
+      },
+      creamer: {
+        name: "Coffee with creamer",
+        low: 0.45,
+        avg: 0.70,
+        high: 0.95
+      },
+      vanilla: {
+        name: "Vanilla coffee",
+        low: 0.65,
+        avg: 0.95,
+        high: 1.25
+      },
+      sweet: {
+        name: "Sweet flavored coffee",
+        low: 0.80,
+        avg: 1.15,
+        high: 1.50
+      },
+      iced: {
+        name: "Iced coffee at home",
+        low: 0.95,
+        avg: 1.35,
+        high: 1.75
+      },
+      latte: {
+        name: "Latte-style homemade coffee",
+        low: 1.25,
+        avg: 1.85,
+        high: 2.45
+      }
+    };
+
     const reactions = {
       tiny: [
         "This is giving 'occasional little latte cameo.'",
@@ -699,13 +741,13 @@
       } else if (yearly <= 1800) {
         return randomFrom(reactions.mediumLow);
       } else if (yearly <= 3500) {
-        return `${randomFrom(reactions.medium)} In 5 years, that's $${fiveYear.toLocaleString()}.`;
+        return `${randomFrom(reactions.medium)} In 5 years, that's ${formatMoney(fiveYear)}.`;
       } else if (yearly <= 6000) {
-        return `${randomFrom(reactions.high)} In 5 years, that's $${fiveYear.toLocaleString()}.`;
+        return `${randomFrom(reactions.high)} In 5 years, that's ${formatMoney(fiveYear)}.`;
       } else if (yearly <= 10000) {
-        return `${randomFrom(reactions.veryHigh)} In 5 years, that's $${fiveYear.toLocaleString()} 😬`;
+        return `${randomFrom(reactions.veryHigh)} In 5 years, that's ${formatMoney(fiveYear)} 😬`;
       } else {
-        return `${randomFrom(reactions.absurd)} In 5 years, that's $${fiveYear.toLocaleString()} 💀`;
+        return `${randomFrom(reactions.absurd)} In 5 years, that's ${formatMoney(fiveYear)} 💀`;
       }
     }
 
@@ -719,9 +761,8 @@
     function calculate() {
       const weeklySpend = Number(document.getElementById("weeklySpend").value);
       const cupsPerWeek = Number(document.getElementById("cupsPerWeek").value);
-      const coffeeType = document.getElementById("coffeeType");
-      const homeCupPrice = Number(coffeeType.value);
-      const coffeeTypeText = coffeeType.options[coffeeType.selectedIndex].text.split(" - ")[0];
+      const coffeeTypeKey = document.getElementById("coffeeType").value;
+      const coffee = coffeeData[coffeeTypeKey];
 
       const result = document.getElementById("result");
       const subtext = document.getElementById("subtext");
@@ -739,18 +780,25 @@
         homeCupCost.innerText = "Pick a style and enter valid amounts.";
         cafeCupCost.innerText = "We need your weekly spend and number of coffees.";
         weeklyHomeCost.innerText = "We’ll estimate this once the numbers are in.";
-        saveText.innerText = "Savings will show here after valid input.";
+        saveText.innerText = "Savings range will show here after valid input.";
         return;
       }
 
       const yearly = weeklySpend * 52;
       const fiveYear = yearly * 5;
+      const averageCafeCup = weeklySpend / cupsPerWeek;
 
-      const averageCafeCupCost = weeklySpend / cupsPerWeek;
-      const estimatedWeeklyHomeCost = homeCupPrice * cupsPerWeek;
-      const yearlyHomeCost = estimatedWeeklyHomeCost * 52;
-      const yearlySavings = Math.max(0, yearly - yearlyHomeCost);
-      const fiveYearSavings = yearlySavings * 5;
+      const weeklyHomeLow = coffee.low * cupsPerWeek;
+      const weeklyHomeAvg = coffee.avg * cupsPerWeek;
+      const weeklyHomeHigh = coffee.high * cupsPerWeek;
+
+      const yearlySaveLow = Math.max(0, yearly - (weeklyHomeHigh * 52));
+      const yearlySaveAvg = Math.max(0, yearly - (weeklyHomeAvg * 52));
+      const yearlySaveHigh = Math.max(0, yearly - (weeklyHomeLow * 52));
+
+      const fiveYearSaveLow = yearlySaveLow * 5;
+      const fiveYearSaveAvg = yearlySaveAvg * 5;
+      const fiveYearSaveHigh = yearlySaveHigh * 5;
 
       button.disabled = true;
       button.style.opacity = "0.9";
@@ -771,10 +819,10 @@
         result.innerText = `${formatMoney(yearly)} per year 😳`;
         subtext.innerText = getReaction(yearly, fiveYear);
 
-        homeCupCost.innerText = `${coffeeTypeText}: about ${formatMoney(homeCupPrice)} for one 16 oz homemade coffee.`;
-        cafeCupCost.innerText = `Based on your numbers, you're paying about ${formatMoney(averageCafeCupCost)} per coffee.`;
-        weeklyHomeCost.innerText = `If you made ${cupsPerWeek} of those at home, it would cost about ${formatMoney(estimatedWeeklyHomeCost)} per week.`;
-        saveText.innerText = `That could save about ${formatMoney(yearlySavings)} per year, or around ${formatMoney(fiveYearSavings)} over 5 years.`;
+        homeCupCost.innerText = `${coffee.name}: about ${formatMoney(coffee.low)} to ${formatMoney(coffee.high)} per 16 oz homemade coffee, averaging around ${formatMoney(coffee.avg)}.`;
+        cafeCupCost.innerText = `Based on your numbers, you're paying about ${formatMoney(averageCafeCup)} per coffee.`;
+        weeklyHomeCost.innerText = `If you made ${cupsPerWeek} of those at home, that could cost about ${formatMoney(weeklyHomeLow)} to ${formatMoney(weeklyHomeHigh)} per week, averaging around ${formatMoney(weeklyHomeAvg)}.`;
+        saveText.innerText = `Potential yearly savings: about ${formatMoney(yearlySaveLow)} to ${formatMoney(yearlySaveHigh)}, averaging around ${formatMoney(yearlySaveAvg)}. Over 5 years, that's about ${formatMoney(fiveYearSaveLow)} to ${formatMoney(fiveYearSaveHigh)}, with an average around ${formatMoney(fiveYearSaveAvg)}.`;
 
         resultBox.classList.remove("loading");
         resultBox.classList.add("result-pop");
