@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Eating Out Calculator</title>
+  <title>ToolGarden | Eating Out Calculator</title>
+  <meta name="description" content="ToolGarden's Eating Out Calculator helps you estimate how much you spend per year on takeout, restaurants, coffee runs, delivery, and quick food stops." />
 
   <style>
     * {
@@ -26,6 +27,15 @@
         radial-gradient(circle at top left, rgba(255, 197, 109, 0.52), transparent 28%),
         radial-gradient(circle at bottom right, rgba(255, 130, 64, 0.34), transparent 32%),
         linear-gradient(180deg, #f2dcc4 0%, #e3c3a8 100%);
+    }
+
+    a {
+      color: #b94814;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
     }
 
     .page-wrap {
@@ -254,10 +264,42 @@
       line-height: 1.45;
     }
 
+    .info-section {
+      margin-top: 22px;
+      text-align: left;
+      background: rgba(255,255,255,0.35);
+      border: 1px solid rgba(234, 88, 12, 0.16);
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .info-section h2 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      color: #5c4638;
+    }
+
+    .info-section p {
+      margin: 0 0 10px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #5f5147;
+    }
+
     .footer {
       margin-top: 20px;
       font-size: 12px;
-      color: #a79b92;
+      color: #7f7065;
+      line-height: 1.8;
+    }
+
+    .footer-links {
+      margin-top: 10px;
+    }
+
+    .footer-links a {
+      margin: 0 8px;
+      white-space: nowrap;
     }
 
     .loading {
@@ -280,7 +322,6 @@
       }
     }
 
-    /* MOBILE */
     @media (max-width: 480px) {
       .page-wrap {
         padding: 16px 12px;
@@ -297,7 +338,8 @@
         font-size: 22px;
       }
 
-      .subtitle {
+      .subtitle,
+      .info-section p {
         font-size: 14px;
       }
 
@@ -321,9 +363,13 @@
           radial-gradient(circle at top left, rgba(255,255,255,0.40), transparent 28%),
           linear-gradient(145deg, #fff7f1 0%, #ffe6d7 46%, #ffd9c3 100%);
       }
+
+      .footer-links a {
+        display: inline-block;
+        margin: 4px 6px;
+      }
     }
 
-    /* TABLET */
     @media (min-width: 481px) and (max-width: 1023px) {
       .card {
         max-width: 560px;
@@ -336,7 +382,6 @@
       }
     }
 
-    /* DESKTOP */
     @media (min-width: 1024px) {
       body {
         background:
@@ -353,13 +398,6 @@
         max-width: 620px;
         padding: 42px 34px 34px;
         border-radius: 30px;
-        background:
-          linear-gradient(180deg, rgba(255, 246, 234, 0.99) 0%, rgba(251, 233, 214, 0.97) 58%, rgba(245, 224, 202, 0.96) 100%);
-        box-shadow:
-          0 26px 72px rgba(106, 60, 20, 0.14),
-          0 10px 28px rgba(106, 60, 20, 0.07),
-          inset 0 1px 0 rgba(255,255,255,0.30);
-        border: 2px solid rgba(234, 88, 12, 0.26);
       }
 
       .top-emoji {
@@ -390,8 +428,6 @@
         font-size: 18px;
         border-radius: 16px;
         margin-bottom: 18px;
-        background:
-          linear-gradient(180deg, rgba(255,255,255,0.97) 0%, rgba(255,247,238,0.94) 100%);
       }
 
       button {
@@ -416,14 +452,6 @@
         margin-top: 26px;
         padding: 26px 24px 20px;
         border-radius: 24px;
-        background:
-          radial-gradient(circle at top left, rgba(255,255,255,0.42), transparent 28%),
-          linear-gradient(145deg, #fff9f4 0%, #ffe4d2 42%, #ffd1b4 100%);
-        border: 2px solid rgba(234, 88, 12, 0.34);
-        box-shadow:
-          0 18px 34px rgba(179, 88, 29, 0.14),
-          inset 0 1px 0 rgba(255,255,255,0.56),
-          inset 0 -8px 20px rgba(234, 88, 12, 0.04);
       }
 
       .result {
@@ -447,19 +475,6 @@
         font-size: 3rem;
         opacity: 0.28;
       }
-
-      .background span:nth-child(1)  { left: 4%;  animation-duration: 17s; }
-      .background span:nth-child(2)  { left: 11%; animation-duration: 21s; }
-      .background span:nth-child(3)  { left: 19%; animation-duration: 18s; }
-      .background span:nth-child(4)  { left: 27%; animation-duration: 23s; }
-      .background span:nth-child(5)  { left: 35%; animation-duration: 19s; }
-      .background span:nth-child(6)  { left: 43%; animation-duration: 22s; }
-      .background span:nth-child(7)  { left: 51%; animation-duration: 18s; }
-      .background span:nth-child(8)  { left: 59%; animation-duration: 24s; }
-      .background span:nth-child(9)  { left: 67%; animation-duration: 20s; }
-      .background span:nth-child(10) { left: 75%; animation-duration: 25s; }
-      .background span:nth-child(11) { left: 83%; animation-duration: 19s; }
-      .background span:nth-child(12) { left: 91%; animation-duration: 22s; }
 
       .glow,
       .glow2 {
@@ -502,14 +517,14 @@
   <div class="glow2"></div>
 
   <div class="page-wrap">
-    <div class="card">
+    <main class="card">
       <div class="top-emoji">🍔💸</div>
 
       <h1>How Much Do You Spend Eating Out?</h1>
 
       <p class="subtitle">
-        Put in your average weekly spending on takeout, fast food, restaurants, or snack runs.
-        The yearly number might slap a little.
+        Put in your average weekly spending on takeout, fast food, restaurants, coffee runs, delivery, or snack stops.
+        This free calculator gives you a quick estimate of what that habit looks like over a full year.
       </p>
 
       <label class="input-label" for="money">Your weekly food spending</label>
@@ -528,8 +543,28 @@
         Tip: include coffee runs, delivery fees, and “just grabbing something quick.”
       </div>
 
-      <div class="footer">ToolGarden • tiny tools, big realizations</div>
-    </div>
+      <section class="info-section">
+        <h2>About this tool</h2>
+        <p>
+          The Eating Out Calculator is a simple budgeting tool that helps you estimate how much you spend on dining out over time.
+          It is useful for tracking takeout habits, restaurant spending, fast food trips, and convenience spending that can be easy to overlook.
+        </p>
+        <p>
+          To use it, enter your average weekly spending and click the button. The calculator multiplies your weekly amount by 52 to estimate your yearly total,
+          then gives you a playful reaction based on the result.
+        </p>
+      </section>
+
+      <div class="footer">
+        <div>ToolGarden • tiny tools, big realizations</div>
+        <div class="footer-links">
+          <a href="about.html">About</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+    </main>
   </div>
 
   <script>
